@@ -156,6 +156,11 @@ class Sobremim extends StatelessWidget {
                   getHabilidade(FontAwesomeIcons.google, 'Firebase'),
                   getHabilidade(FontAwesomeIcons.git, 'Git'),
                   getHabilidade(FontAwesomeIcons.github, 'GitHub'),
+                  getHabilidade(FontAwesomeIcons.shield, 'Criptografia AES'),
+                  getHabilidade(
+                    FontAwesomeIcons.fingerprint,
+                    'Criptografia Hash',
+                  ),
                 ],
               ),
             ],

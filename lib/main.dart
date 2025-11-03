@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:portifolio_suzanamartins/header.dart';
+import 'package:portifolio_suzanamartins/projeto.dart';
 import 'sobremim.dart';
 import 'Template.dart';
 
@@ -26,9 +27,37 @@ class MyMain extends StatelessWidget {
   }
 }
 
-class Principal extends StatelessWidget {
+class Principal extends StatefulWidget {
+  @override
+  State<Principal> createState() => _PrincipalState();
+}
+
+class _PrincipalState extends State<Principal> {
+  final Projeto _p = Projeto(
+    data: 'teste',
+    desc: 'descrição',
+    habilidades: [Habilidade.AndroidApps, Habilidade.C],
+    nome: 'Teste App',
+    github: 'https://google.com',
+    applestore: 'https://y8.com',
+  );
+
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(child: Container(child: Sobremim()));
+    return SingleChildScrollView(
+      child: Container(
+        child: Column(
+          children: [
+            ElevatedButton(
+              onPressed: () {
+                _p.popup(context);
+              },
+              child: Text('Abrir Dialog'),
+            ),
+            Sobremim(),
+          ],
+        ),
+      ),
+    );
   }
 }
