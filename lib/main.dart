@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:portifolio_suzanamartins/header.dart';
+import 'sobremim.dart';
+import 'Template.dart';
 
 void main() {
   runApp(
@@ -6,9 +9,8 @@ void main() {
       title: 'Suzana Martins',
       home: MyMain(),
       theme: ThemeData(
-        primaryColor: Colors.green,
-        scaffoldBackgroundColor: Color(0xFFF9CCFF),
-        appBarTheme: AppBarThemeData(backgroundColor: Color(0xFFF2A3FF)),
+        scaffoldBackgroundColor: kFundo,
+        appBarTheme: AppBarThemeData(backgroundColor: kAppBar),
       ),
     ),
   );
@@ -18,7 +20,7 @@ class MyMain extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Olá, Mundo!')),
+      appBar: AppBar(toolbarHeight: 100, title: TitleAppBar()),
       body: Principal(),
     );
   }
@@ -27,6 +29,6 @@ class MyMain extends StatelessWidget {
 class Principal extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Container(child: Text('teste'));
+    return SingleChildScrollView(child: Container(child: Sobremim()));
   }
 }
