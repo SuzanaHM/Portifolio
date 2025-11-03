@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:portifolio_suzanamartins/contato.dart';
 import 'package:portifolio_suzanamartins/main.dart';
 import 'package:portifolio_suzanamartins/projetos.dart';
 import 'package:portifolio_suzanamartins/sobremim.dart';
@@ -80,14 +81,13 @@ class _DrawermenuState extends State<Drawermenu>
     return ListTile(
       title: Text(title, style: const TextStyle(color: Colors.black)),
       onTap: () {
-        print('$title clicado');
         Widget pg = Sobremim();
         switch (title) {
           case 'Projetos':
             pg = Projetos();
             break;
           case 'Contato':
-            pg = Sobremim();
+            pg = Contato();
             break;
         }
         Navigator.push(
