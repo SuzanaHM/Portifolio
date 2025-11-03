@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:portifolio_suzanamartins/Template.dart';
+import 'package:portifolio_suzanamartins/Widgets/Galeria.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class Projeto {
@@ -8,6 +9,7 @@ class Projeto {
   final String nome;
   final String desc;
   final String data;
+  final List<ImageProvider> imagens;
   final String github;
   final String website;
   final String playstore;
@@ -18,6 +20,7 @@ class Projeto {
     required this.nome,
     required this.desc,
     required this.data,
+    required this.imagens,
     String this.github = '',
     String this.website = '',
     String this.playstore = '',
@@ -160,12 +163,31 @@ class Projeto {
                 padding: EdgeInsets.all(25),
                 child: Column(
                   children: [
-                    SizedBox(height: 20),
+                    Container(
+                      alignment: Alignment.topRight,
+                      child: GestureDetector(
+                        onTap: () {
+                          Navigator.of(context).pop();
+                        },
+                        child: Icon(
+                          FontAwesomeIcons.xmark,
+                          color: Colors.white,
+                        ),
+                      ),
+                    ),
+                    SizedBox(height: 5),
                     Text(
                       nome,
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
                         fontSize: 50,
+                      ),
+                    ),
+                    Text(
+                      data,
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 15,
                       ),
                     ),
                     Wrap(
@@ -180,9 +202,7 @@ class Projeto {
                       child: Row(
                         children: [
                           Expanded(
-                            child: Container(
-                              child: Image.asset('imagens/me.png'),
-                            ),
+                            child: Container(child: Galeria(imagens: imagens)),
                           ),
                           Expanded(
                             child: Container(
