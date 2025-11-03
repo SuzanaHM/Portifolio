@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:portifolio_suzanamartins/Widgets/DrawerMenu.dart';
 import 'package:portifolio_suzanamartins/header.dart';
 import 'package:portifolio_suzanamartins/projeto.dart';
 import 'package:portifolio_suzanamartins/projetos.dart';
@@ -10,7 +11,7 @@ void main() {
   runApp(
     MaterialApp(
       title: 'Suzana Martins',
-      home: MyMain(),
+      home: MyPage(),
       theme: ThemeData(
         scaffoldBackgroundColor: kFundo,
         appBarTheme: AppBarThemeData(backgroundColor: kAppBar),
@@ -19,9 +20,23 @@ void main() {
   );
 }
 
-class MyMain extends StatelessWidget {
+class MyPage extends StatefulWidget {
+  MyPage({this.pagina});
+  final Widget? pagina;
+
+  @override
+  State<MyPage> createState() => _MyPageState(pagina: pagina);
+}
+
+class _MyPageState extends State<MyPage> {
+  _MyPageState({this.pagina});
+  final Widget? pagina;
+
+  bool _drawer = false;
+
   @override
   Widget build(BuildContext context) {
+    Widget pg = pagina != null ? pagina! : Sobremim();
     return Scaffold(
       appBar: AppBar(
         toolbarHeight: 100,
@@ -29,11 +44,23 @@ class MyMain extends StatelessWidget {
         leading: IconButton(
           icon: Icon(Icons.menu, color: Colors.white),
           onPressed: () {
-            print("Botão do lado esquerdo clicado");
+            setState(() {
+              _drawer = !_drawer;
+            });
           },
         ),
       ),
-      body: Principal(),
+      body: Stack(
+        children: [
+          SingleChildScrollView(child: Container(child: pg)),
+          Positioned(
+            left: 0,
+            top: 0,
+            bottom: 0,
+            child: Drawermenu(aberto: _drawer),
+          ),
+        ],
+      ),
     );
   }
 }
