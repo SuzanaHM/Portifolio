@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:portifolio_suzanamartins/Widgets/DrawerMenu.dart';
-import 'package:portifolio_suzanamartins/header.dart';
-import 'package:portifolio_suzanamartins/projeto.dart';
-import 'package:portifolio_suzanamartins/projetos.dart';
+import 'Widgets/DrawerMenu.dart';
+import 'header.dart';
+import 'projeto.dart';
+import 'projetos.dart';
 import 'sobremim.dart';
 import 'Template.dart';
 

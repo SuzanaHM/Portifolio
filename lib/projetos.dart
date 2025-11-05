@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:portifolio_suzanamartins/Template.dart';
-import 'package:portifolio_suzanamartins/projeto.dart';
+import 'Template.dart';
+import 'projeto.dart';
 
 List<Projeto> projetos = [
   Projeto(
@@ -238,11 +238,21 @@ class _ProjetosState extends State<Projetos> {
             children: [for (Habilidade h in Habilidade.values) Botao(h)],
           ),
           SizedBox(height: 25),
-          GridView.count(
-            crossAxisCount: 3,
-            shrinkWrap: true,
-            physics: NeverScrollableScrollPhysics(),
-            children: proj.map((p) => ProjetoView(projeto: p)).toList(),
+          Wrap(
+            alignment: WrapAlignment.center,
+            spacing: 10,
+            runSpacing: 10,
+            children: proj
+                .map(
+                  (p) => ConstrainedBox(
+                    constraints: const BoxConstraints(
+                      maxWidth: 280, // limite de largura
+                      minWidth: 150, // evita ficar pequeno demais
+                    ),
+                    child: ProjetoView(projeto: p),
+                  ),
+                )
+                .toList(),
           ),
         ],
       ),
@@ -251,66 +261,76 @@ class _ProjetosState extends State<Projetos> {
 }
 
 class ProjetoView extends StatefulWidget {
-  ProjetoView({required this.projeto});
+  const ProjetoView({required this.projeto, super.key});
   final Projeto projeto;
 
   @override
-  State<ProjetoView> createState() => _ProjetoViewState(p: projeto);
+  State<ProjetoView> createState() => _ProjetoViewState();
 }
 
 class _ProjetoViewState extends State<ProjetoView> {
-  _ProjetoViewState({required this.p});
-
-  final Projeto p;
   bool _hover = false;
 
   @override
   Widget build(BuildContext context) {
+    final p = widget.projeto;
+
     return MouseRegion(
-      onEnter: (event) {
-        setState(() {
-          _hover = true;
-        });
-      },
-      onExit: (event) {
-        setState(() {
-          _hover = false;
-        });
-      },
+      onEnter: (_) => setState(() => _hover = true),
+      onExit: (_) => setState(() => _hover = false),
       child: AnimatedScale(
-        scale: _hover ? 1.1 : 1.0,
-        duration: Duration(milliseconds: 200),
+        scale: _hover ? 1.05 : 1.0,
+        duration: const Duration(milliseconds: 200),
         curve: Curves.easeInOut,
         child: GestureDetector(
-          onTap: () {
-            p.popup(context);
-          },
+          onTap: () => p.popup(context),
           child: Container(
-            margin: EdgeInsets.all(12),
+            margin: const EdgeInsets.all(12),
             decoration: BoxDecoration(
               color: kAppBar,
               borderRadius: BorderRadius.circular(15),
             ),
             child: Column(
+              mainAxisSize: MainAxisSize.min, // evita overflow
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                // Container da imagem
-                Expanded(
-                  flex: 3,
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.vertical(
-                      top: Radius.circular(15),
-                    ),
+                // Imagem com altura fixa proporcional
+                ClipRRect(
+                  borderRadius: const BorderRadius.vertical(
+                    top: Radius.circular(15),
+                  ),
+                  child: AspectRatio(
+                    aspectRatio: 16 / 9,
                     child: Image(image: p.imagens[0], fit: BoxFit.cover),
                   ),
                 ),
-                Expanded(
-                  flex: 1,
+
+                // Conteúdo textual
+                Padding(
+                  padding: const EdgeInsets.all(8),
                   child: Column(
+                    mainAxisSize: MainAxisSize.min, // evita expansão
                     children: [
-                      SizedBox(height: 15),
-                      Text(p.nome, textAlign: TextAlign.center),
-                      Text(p.data, textAlign: TextAlign.center),
+                      Text(
+                        p.nome,
+                        textAlign: TextAlign.center,
+                        style: const TextStyle(
+                          fontSize: 14,
+                          fontWeight: FontWeight.bold,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                        maxLines: 2,
+                      ),
+                      const SizedBox(height: 4),
+                      Text(
+                        p.data,
+                        textAlign: TextAlign.center,
+                        style: const TextStyle(
+                          fontSize: 12,
+                          color: Colors.black54,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ),
                     ],
                   ),
                 ),

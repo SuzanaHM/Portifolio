@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:portifolio_suzanamartins/Template.dart';
-import 'package:portifolio_suzanamartins/Widgets/Galeria.dart';
+import 'Template.dart';
+import 'Widgets/Galeria.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class Projeto {
@@ -198,22 +198,22 @@ class Projeto {
                       ],
                     ),
                     SizedBox(height: 20),
-                    IntrinsicHeight(
-                      child: Row(
-                        children: [
-                          Expanded(
-                            child: Container(child: Galeria(imagens: imagens)),
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Flexible(flex: 1, child: Galeria(imagens: imagens)),
+                        SizedBox(width: 20),
+                        Flexible(
+                          flex: 1,
+                          child: Container(
+                            padding: EdgeInsets.all(15),
+                            alignment: Alignment.topLeft,
+                            child: Text(desc),
                           ),
-                          Expanded(
-                            child: Container(
-                              padding: EdgeInsets.all(15),
-                              alignment: Alignment.topLeft,
-                              child: Text(desc),
-                            ),
-                          ),
-                        ],
-                      ),
+                        ),
+                      ],
                     ),
+
                     SizedBox(height: 20),
                     Wrap(
                       runSpacing: 5,

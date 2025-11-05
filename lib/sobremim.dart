@@ -13,7 +13,7 @@ class Sobremim extends StatelessWidget {
   Container getHabilidade(IconData icon, String text) {
     return Container(
       padding: EdgeInsets.all(10),
-      margin: EdgeInsets.all(10),
+      margin: EdgeInsets.all(8),
       height: size,
       width: size,
       decoration: BoxDecoration(
@@ -121,7 +121,7 @@ class Sobremim extends StatelessWidget {
         ),
         SizedBox(height: 50),
         Container(
-          padding: EdgeInsets.all(20),
+          padding: EdgeInsets.symmetric(vertical: 20),
           margin: EdgeInsets.all(50),
           decoration: BoxDecoration(
             color: kWindowColor,

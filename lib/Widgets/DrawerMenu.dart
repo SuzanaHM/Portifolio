@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:portifolio_suzanamartins/contato.dart';
-import 'package:portifolio_suzanamartins/main.dart';
-import 'package:portifolio_suzanamartins/projetos.dart';
-import 'package:portifolio_suzanamartins/sobremim.dart';
+import '../contato.dart';
+import '../main.dart';
+import '../projetos.dart';
+import '../sobremim.dart';
 
 class Drawermenu extends StatefulWidget {
   const Drawermenu({required this.aberto, Key? key}) : super(key: key);

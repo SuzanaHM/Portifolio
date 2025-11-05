@@ -2,20 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class Galeria extends StatefulWidget {
-  Galeria({required this.imagens});
+  const Galeria({required this.imagens, super.key});
 
   final List<ImageProvider> imagens;
 
   @override
-  State<Galeria> createState() => _GaleriaState(imagens: imagens);
+  State<Galeria> createState() => _GaleriaState();
 }
 
 class _GaleriaState extends State<Galeria> {
-  _GaleriaState({required this.imagens});
-
-  final List<ImageProvider> imagens;
-
   int select = 0;
+
   int getPrev() {
     if (widget.imagens.length == 1) return -1;
     if (select - 1 < 0) return widget.imagens.length - 1;
@@ -32,7 +29,9 @@ class _GaleriaState extends State<Galeria> {
   Widget build(BuildContext context) {
     return Container(
       child: Column(
+        mainAxisSize: MainAxisSize.min,
         children: [
+          // Imagem principal
           Stack(
             alignment: Alignment.center,
             children: [
@@ -47,71 +46,91 @@ class _GaleriaState extends State<Galeria> {
               ),
             ],
           ),
-          SizedBox(height: 10),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              TextButton(
-                style: TextButton.styleFrom(
-                  backgroundColor: Colors.transparent,
-                ),
-                onPressed: () {
-                  setState(() {
-                    if (getNext() != -1) select = getPrev();
-                  });
-                },
-                child: Icon(FontAwesomeIcons.lessThan, color: Colors.white),
-              ),
-              if (getPrev() != -1 && getPrev() != getNext())
-                Container(
-                  margin: EdgeInsets.all(4),
-                  height: 50,
-                  width: 50,
-                  child: AspectRatio(
-                    aspectRatio: 1,
-                    child: Image(
-                      image: widget.imagens[getPrev()],
-                      fit: BoxFit.fill,
-                    ),
-                  ),
-                ),
-              Container(
-                height: 50,
-                width: 50,
-                margin: EdgeInsets.all(4),
-                child: AspectRatio(
-                  aspectRatio: 1,
-                  child: Image(image: widget.imagens[select], fit: BoxFit.fill),
-                ),
-              ),
-              if (getPrev() != -1)
-                Container(
-                  margin: EdgeInsets.all(4),
-                  height: 50,
-                  width: 50,
-                  child: AspectRatio(
-                    aspectRatio: 1,
-                    child: Image(
-                      image: widget.imagens[getNext()],
-                      fit: BoxFit.fill,
-                    ),
-                  ),
-                ),
+          const SizedBox(height: 10),
 
-              TextButton(
-                style: TextButton.styleFrom(
-                  backgroundColor: Colors.transparent,
-                ),
-                onPressed: () {
-                  setState(() {
-                    if (getNext() != -1) select = getNext();
-                  });
-                },
-                child: Icon(FontAwesomeIcons.greaterThan, color: Colors.white),
-              ),
-            ],
+          // Linha de miniaturas e botões
+          LayoutBuilder(
+            builder: (context, constraints) {
+              // Define o tamanho máximo de cada miniatura
+              double thumbSize = constraints.maxWidth / 8;
+              if (thumbSize > 60) thumbSize = 60; // limita o tamanho máximo
+              if (thumbSize < 35) thumbSize = 35; // evita miniaturas minúsculas
+
+              return Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  TextButton(
+                    style: TextButton.styleFrom(
+                      backgroundColor: Colors.transparent,
+                    ),
+                    onPressed: () {
+                      setState(() {
+                        if (getPrev() != -1) select = getPrev();
+                      });
+                    },
+                    child: const Icon(
+                      FontAwesomeIcons.lessThan,
+                      color: Colors.white,
+                    ),
+                  ),
+
+                  // Usamos Flexible para distribuir o espaço das miniaturas
+                  Flexible(
+                    fit: FlexFit.tight,
+                    child: SizedBox(
+                      height: 80, // define altura das miniaturas
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          if (getPrev() != -1 && getPrev() != getNext())
+                            _miniatura(widget.imagens[getPrev()], thumbSize),
+                          _miniatura(
+                            widget.imagens[select],
+                            thumbSize,
+                            destaque: true,
+                          ),
+                          if (getPrev() != -1)
+                            _miniatura(widget.imagens[getNext()], thumbSize),
+                        ],
+                      ),
+                    ),
+                  ),
+
+                  TextButton(
+                    style: TextButton.styleFrom(
+                      backgroundColor: Colors.transparent,
+                    ),
+                    onPressed: () {
+                      setState(() {
+                        if (getNext() != -1) select = getNext();
+                      });
+                    },
+                    child: const Icon(
+                      FontAwesomeIcons.greaterThan,
+                      color: Colors.white,
+                    ),
+                  ),
+                ],
+              );
+            },
           ),
         ],
+      ),
+    );
+  }
+
+  Widget _miniatura(ImageProvider img, double size, {bool destaque = false}) {
+    return Container(
+      margin: const EdgeInsets.all(4),
+      height: size,
+      width: size,
+      decoration: BoxDecoration(
+        border: destaque ? Border.all(color: Colors.white, width: 2) : null,
+        borderRadius: BorderRadius.circular(8),
+      ),
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(8),
+        child: Image(image: img, fit: BoxFit.cover),
       ),
     );
   }
